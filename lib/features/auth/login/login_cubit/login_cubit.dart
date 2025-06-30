@@ -22,13 +22,13 @@ class LoginCubit extends Cubit<LoginState> {
         data: {"username": email, "password": password},
       );
 
-      // حفظ التوكنات
+      // Save Token
       await CacheHelper.saveString(
         key: kAccessToken,
         value: response.data[kAccessToken],
       );
 
-      // لو فيه refreshToken
+      // refreshToken
       if (response.data[kRefreshToken] != null) {
         await CacheHelper.saveString(
           key: kRefreshToken,

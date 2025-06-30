@@ -13,7 +13,26 @@ class HomeViewBody extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            SizedBox(height: 25.h),
+            Row(
+              children: [
+                SizedBox(
+                  height: 100.h
+                ),
+                Expanded(
+                  child: ListTile(
+                    
+                    leading: CircleAvatar(
+                      child: Icon(Icons.person, size: 30.sp,),
+                    ),
+                    title: Text("Hi, ",),
+                    subtitle: const Text("Let's go shopping",),
+                  ),
+                ),
+                Icon(Icons.search, size: 30.sp,),
+                SizedBox(width: 10.w,),
+                Icon(Icons.notifications_outlined, size: 30.sp,),
+              ],
+            ),
             GridView.builder(
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
