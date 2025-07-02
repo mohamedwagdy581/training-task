@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/product_repository.dart';
+import '../product_cubit/product_cubit.dart';
 import 'widgets/home_view_body.dart';
 
 class HomeView extends StatelessWidget {
@@ -8,8 +10,10 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (_) => ProductCubit(ProductRepository())..fetchProducts(),
+      child: const Scaffold(
       body: HomeViewBody(),
-    );
+    ),);
   }
 }

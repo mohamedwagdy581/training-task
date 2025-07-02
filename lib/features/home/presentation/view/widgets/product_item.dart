@@ -1,92 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProductItem extends StatelessWidget {
-  final int prodId;
-  final String prodName;
-  final String prodPicture;
-  final int prodPrice;
-  final int prodOldPrice;
-  final String prodDetails;
-  const ProductItem({
-    super.key,
-    required this.prodId,
-    required this.prodName,
-    required this.prodPicture,
-    required this.prodPrice,
-    required this.prodOldPrice,
-    required this.prodDetails,
-  });
+import '../../../data/product_model.dart';
+
+class ProductCard extends StatelessWidget {
+  final ProductModel product;
+  final bool isFav;
+  final void Function()? onTap;
+  const ProductCard({super.key, required this.product, required this.isFav, this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    
     return Card(
-      child: Hero(
-        tag: Text(prodName),
-        child: Material(
-          child: InkWell(
-            onTap: () {
-              // navigateTo(
-              //   context,
-              //   ProductDetailsScreen(
-              //     productDetailsId: prodId,
-              //     productDetailsName: prodName,
-              //     productDetailsPicture: prodPicture,
-              //     productDetailsPrice: prodPrice,
-              //     productDetailsOldPrice: prodOldPrice,
-              //     productDetails: prodDetails,
-              //     productDetailsBrand: prodBrand,
-              //     productDetailsColor: prodColor,
-              //     productDetailsSize: prodSize,
-              //   ),
-              // );
-            },
-            child: GridTile(
-              footer: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12.r),
-                    topRight: Radius.circular(12.r),
-                  ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
-                height: 55.h,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    top: 1.0,
-                    bottom: 1.0,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          prodName,
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+              ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: GestureDetector(
+                  onTap: onTap,
+                  child: CircleAvatar(
+                    radius: 16,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                        isFav ? Icons.favorite : Icons.favorite_border,
+                        color: isFav ? Colors.red : Colors.grey,
+                        size: 18,
                       ),
-                      Text(
-                        '$prodPrice \$',
-                        style: const TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),
-              child: ClipRRect(
-                child: Image.network(prodPicture, fit: BoxFit.fill),
-              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "${product.price} \$",
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  product.description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 12, color: Colors.black54),
+                ),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }

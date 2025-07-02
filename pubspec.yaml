@@ -34,6 +34,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  equatable: ^2.0.5
+  json_annotation: ^4.9.0
   flutter_screenutil: ^5.9.3
   font_awesome_flutter: ^10.8.0
   go_router: ^15.2.3
@@ -43,6 +45,8 @@ dependencies:
 
 dev_dependencies:
   flutter_lints: ^5.0.0
+  build_runner: ^2.5.4      # نُشر قبل 9 أيام :contentReference[oaicite:0]{index=0}
+  json_serializable: ^6.9.5 
   flutter_test:
     sdk: flutter
 

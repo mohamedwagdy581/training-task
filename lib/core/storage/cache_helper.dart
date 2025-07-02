@@ -36,4 +36,16 @@ class CacheHelper {
   static Future<void> clear() async {
     await _prefs.clear();
   }
+
+   /// Save favourite product IDs.
+  static Future<void> saveFavourites(Set<int> ids) async {
+    final list = ids.map((e) => e.toString()).toList();
+    await _prefs.setStringList('favourites', list);
+  }
+
+  /// Retrieve favourite IDs (empty set if none).
+  static Set<int> getFavourites() {
+    final list = _prefs.getStringList('favourites') ?? [];
+    return list.map(int.parse).toSet();
+  }
 }
