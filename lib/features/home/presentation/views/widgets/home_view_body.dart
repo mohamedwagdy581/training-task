@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/product_model.dart';
-import '../../product_cubit/product_cubit.dart';
+import '../../manager/home_cubit/product_cubit.dart';
+import '../../manager/home_cubit/product_state.dart';
 import 'product_item.dart';
+import 'slider_banners.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
@@ -28,6 +30,7 @@ class HomeViewBody extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 25.h),
+                  // ========= User Details =========
                   Row(
                     children: [
                       Expanded(
@@ -44,6 +47,11 @@ class HomeViewBody extends StatelessWidget {
                       Icon(Icons.notifications_outlined, size: 30.sp),
                     ],
                   ),
+
+                  // ===== Banners Section ==========
+                  SliderBanners(),
+
+                  // ======== Category Section =====
                   // SizedBox(
                   //   height: 40.h,
                   //   child: ListView.separated(
@@ -59,29 +67,37 @@ class HomeViewBody extends StatelessWidget {
                   //     ),
                   //   ),
                   // ),
+                  // ========= Products Section =========
                   LayoutBuilder(
                     builder: (context, constraints) {
-                      
-                      final itemWidth = (constraints.maxWidth - 8 * (2 - 1)) / 2; // 2 columns
-                      const textHeight = 104; // estimated card content below image
+                      final itemWidth =
+                          (constraints.maxWidth - 8 * (2 - 1)) / 2; // 2 columns
+                      const textHeight =
+                          104; // estimated card content below image
                       final itemHeight = itemWidth + textHeight;
                       final ratio = itemWidth / itemHeight;
                       return GridView.builder(
                         physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
-                        gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 10,
-                              crossAxisSpacing: 10,
-                              childAspectRatio: ratio,
-                            ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: ratio,
+                        ),
                         itemCount: products.length,
                         itemBuilder: (context, index) {
                           final product = products[index];
-                          final bool isFav = context.read<ProductCubit>().isFav(product.id);
-
-                          return ProductCard(product: product, isFav: isFav, onTap: () => context.read<ProductCubit>().toggleFavourite(product.id),);
+                          final bool isFav = context.read<ProductCubit>().isFav(
+                            product.id,
+                          );
+                          return ProductCard(
+                            product: product,
+                            isFav: isFav,
+                            onTap: () => context
+                                .read<ProductCubit>()
+                                .toggleFavourite(product.id),
+                          );
                         },
                       );
                     },
